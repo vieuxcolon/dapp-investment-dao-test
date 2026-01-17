@@ -4,8 +4,13 @@ echo "=== Docker Test: Compile & Deploy DAO Contracts ==="
 
 cd /workspace/packages/contracts
 
-echo "Installing npm dependencies..."
-npm install
+# Install dependencies only if node_modules is empty
+if [ ! -d "node_modules" ] || [ ! -f "package-lock.json" ]; then
+  echo "Installing npm dependencies..."
+  npm install
+else
+  echo "Dependencies already installed."
+fi
 
 echo "Compiling contracts with Hardhat..."
 npx hardhat compile
