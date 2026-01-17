@@ -1,20 +1,19 @@
 #!/bin/bash
-set -e
+echo "=== Docker Test: Compile & Deploy DAO Contracts ==="
 
-echo "=== Docker Test: Compile DAO Contracts ==="
+# Move to contracts directory
+cd /workspace/packages/contracts || exit 1
 
-# Navigate to contracts directory
-cd /workspace/packages/contracts
-
-# Install npm dependencies if not already
-if [ ! -d "node_modules" ]; then
-  echo "Installing npm dependencies..."
-  npm install
-fi
+# Install dependencies
+echo "Installing npm dependencies..."
+npm install
 
 # Compile contracts
 echo "Compiling contracts with Hardhat..."
 npx hardhat compile
 
-echo "✅ Contracts compiled successfully!"
+# Deploy contracts to local Hardhat network
+echo "Deploying contracts..."
+npx hardhat run scripts/deploy.ts --network localhost
 
+echo "Contracts compiled and deployed successfully!"
