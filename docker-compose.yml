@@ -9,11 +9,14 @@ services:
       - "4000:4000"
       - "3000:3000"
     volumes:
-      - ./packages/contracts:/workspace/packages/contracts
+      - ./packages/contracts:/workspace/contracts
       - ./packages/backend:/workspace/backend
       - ./packages/frontend:/workspace/frontend
-      # persistent node_modules inside container
-      - contracts_node_modules:/workspace/packages/contracts/node_modules
+      - contracts_node_modules:/workspace/contracts/node_modules
+    environment:
+      - HARDHAT_RPC=http://127.0.0.1:8545
+      - REACT_APP_CONTRACTS_JSON=/workspace/contracts/deployments/addresses.json
+      - BACKEND_CONTRACTS_JSON=/workspace/contracts/deployments/addresses.json
     networks:
       - dao-network
 
