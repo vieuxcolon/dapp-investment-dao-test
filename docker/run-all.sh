@@ -1,11 +1,20 @@
 #!/bin/bash
 set -e
 
-echo "=== Docker Stack Test Container Started ==="
-echo "Node version: $(node -v)"
-echo "npm version: $(npm -v)"
-echo "Hardhat version: $(hardhat --version)"
-echo "Next.js version: $(next --version)"
+echo "=== Docker Test: Compile DAO Contracts ==="
 
-# Keep container alive for inspection
-tail -f /dev/null
+# Navigate to contracts directory
+cd /workspace/packages/contracts
+
+# Install npm dependencies if not already
+if [ ! -d "node_modules" ]; then
+  echo "Installing npm dependencies..."
+  npm install
+fi
+
+# Compile contracts
+echo "Compiling contracts with Hardhat..."
+npx hardhat compile
+
+echo "✅ Contracts compiled successfully!"
+
