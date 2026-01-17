@@ -1,10 +1,9 @@
-# Base image
 FROM ubuntu:22.04
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Set working directory
 WORKDIR /workspace
 
-# Install system dependencies + jq
+# Install system dependencies
 RUN apt-get update -y && apt-get install -y \
     curl \
     git \
@@ -14,26 +13,19 @@ RUN apt-get update -y && apt-get install -y \
     jq \
     && rm -rf /var/lib/apt/lists/*
 
-# Node.js 20 + npm 10
+# Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
-# Global Node tools
+# Install global dev tools except Hardhat
 RUN npm install -g \
     typescript@5.2.2 \
     ts-node@10.9.1 \
-    hardhat@2.17.2 \
     ethers@6.9.0 \
     next@16.1.2 \
     react@18.2.0 \
     react-dom@18.2.0
 
-# Expose common ports
-EXPOSE 8545 4000 3000
-
-# Copy runtime automation script (make sure run-all.sh is inside ./docker)
+# Copy run-all script
 COPY run-all.sh /workspace/run-all.sh
 RUN chmod +x /workspace/run-all.sh
-
-# Default command: run automation script
-CMD ["/workspace/run-all.sh"]
