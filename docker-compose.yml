@@ -12,9 +12,14 @@ services:
       - ./packages/contracts:/workspace/packages/contracts
       - ./packages/backend:/workspace/backend
       - ./packages/frontend:/workspace/frontend
+      # persistent node_modules inside container
+      - contracts_node_modules:/workspace/packages/contracts/node_modules
     networks:
       - dao-network
 
 networks:
   dao-network:
     driver: bridge
+
+volumes:
+  contracts_node_modules:
