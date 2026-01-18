@@ -1,24 +1,12 @@
-version: "3.9"
-
 services:
-  dao-test-ready:
-    build: ./docker
-    container_name: dao-test-ready
-    stdin_open: true
-    tty: true
-    ports:
-      - "8545:8545"  # Hardhat RPC
-      - "4000:4000"  # Backend
-      - "3000:3000"  # Frontend
+  contracts:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: dao-contracts
     volumes:
-      - ./packages/contracts:/workspace/contracts
-      - ./packages/backend:/workspace/backend
-      - ./packages/frontend:/workspace/frontend
-      - contracts_node_modules:/workspace/contracts/node_modules
-    environment:
-      - HARDHAT_RPC=http://127.0.0.1:8545
-      - REACT_APP_CONTRACTS_JSON=/workspace/contracts/deployments/addresses.json
-      - BACKEND_CONTRACTS_JSON=/workspace/contracts/deployments/addresses.json
+      - ./packages/contracts:/workspace/packages/contracts
+      - contracts_node_modules:/workspace/packages/contracts/node_modules
     networks:
       - dao-network
 
