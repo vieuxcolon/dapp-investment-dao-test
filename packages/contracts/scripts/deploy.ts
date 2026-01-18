@@ -25,10 +25,12 @@ async function main() {
   await treasury.deployed();
   console.log("Treasury deployed at", treasury.address);
 
-  // Save deployed addresses to JSON for frontend/backend
-  const deploymentsDir = path.join(__dirname, "../deployments");
+  // Absolute path for deployments directory
+  const workspaceDir = path.resolve(__dirname, "..");
+  const deploymentsDir = path.join(workspaceDir, "deployments");
+
   if (!fs.existsSync(deploymentsDir)) {
-    fs.mkdirSync(deploymentsDir);
+    fs.mkdirSync(deploymentsDir, { recursive: true });
   }
 
   const addresses = {
